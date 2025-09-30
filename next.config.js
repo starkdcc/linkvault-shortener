@@ -15,7 +15,6 @@ const nextConfig = {
   // Performance optimizations
   experimental: {
     scrollRestoration: true,
-    optimizeCss: true,
     optimizePackageImports: ['@heroicons/react', 'lucide-react'],
   },
   
