@@ -59,8 +59,8 @@
   ],
   "env": {
     "NODE_ENV": "production",
-    "NEXT_PUBLIC_SITE_URL": "https://linkvault.dpdns.org",
-    "NEXT_PUBLIC_APP_NAME": "LinkVault"
+    "NEXT_PUBLIC_SITE_URL": "https://linkpay.com",
+    "NEXT_PUBLIC_APP_NAME": "LinkPay"
   },
   "build": {
     "env": {

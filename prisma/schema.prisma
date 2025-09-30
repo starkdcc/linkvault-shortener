@@ -104,7 +104,7 @@ model Url {
   customAlias   String?   @unique @map("custom_alias")
   title         String?
   description   String?
-  domain        String    @default("linkvault.dpdns.org")
+  domain        String    @default("linkpay.com")
   userId        String?   @map("user_id")
   user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   password      String?

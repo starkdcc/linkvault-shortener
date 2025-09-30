@@ -7,7 +7,7 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['linkvault.dpdns.org', 'cdn.jsdelivr.net'],
+    domains: ['linkpay.com', 'cdn.jsdelivr.net'],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
   },

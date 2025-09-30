@@ -1,4 +1,4 @@
-# 🔗 LinkVault - Premium URL Shortener
+# 🔗 LinkPay - Premium URL Shortener
 
 **High-earning URL shortener with advanced analytics, crypto payments, and AI-powered ad optimization**
 
@@ -6,8 +6,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🚀 **Live Demo**
-- **Production**: [linkvault.dpdns.org](https://linkvault.dpdns.org)
-- **Demo Video**: [Watch Features](https://linkvault.dpdns.org/demo)
+- **Production**: [linkpay.com](https://linkpay.com)
+- **Demo Video**: [Watch Features](https://linkpay.com/demo)
 
 ## ✨ **Key Features**
 
@@ -52,8 +52,8 @@
 
 ### 1. **Clone Repository**
 ```bash
-git clone https://github.com/yourusername/linkvault-shortener.git
-cd linkvault-shortener
+git clone https://github.com/starkdcc/linkvault-shortener.git
+cd linkpay-shortener
 ```
 
 ### 2. **Install Dependencies**

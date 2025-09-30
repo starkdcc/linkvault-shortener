@@ -96,7 +96,7 @@ export default async function handler(req, res) {
       expiresAt: parsedExpiresAt,
       description: description || null,
       userId: userId,
-      domain: process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '') || 'linkvault.dpdns.org'
+      domain: process.env.NEXT_PUBLIC_SITE_URL?.replace('https://', '') || 'linkpay.com'
     };
 
     // Get user's plan for earnings calculation
@@ -113,7 +113,7 @@ export default async function handler(req, res) {
     });
 
     // Generate short URL
-    const shortUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://linkvault.dpdns.org'}/${shortCode}`;
+    const shortUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://linkpay.com'}/${shortCode}`;
 
     // Response data
     const responseData = {
@@ -122,7 +122,7 @@ export default async function handler(req, res) {
       shortUrl,
       shortCode: createdUrl.shortCode,
       customAlias: createdUrl.customAlias,
-      qrCode: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://linkvault.dpdns.org'}/api/qr/${shortCode}`,
+      qrCode: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://linkpay.com'}/api/qr/${shortCode}`,
       createdAt: createdUrl.createdAt,
       expiresAt: createdUrl.expiresAt,
       hasPassword: !!createdUrl.password,
