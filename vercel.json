@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
+  "framework": "nextjs",
+  "regions": ["all"],
+  "functions": {
+    "pages/api/**/*.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 10
+    },
+    "pages/api/redirect/**/*.js": {
+      "runtime": "edge"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/r/:path*",
+      "destination": "/api/redirect/:path*"
+    },
+    {
+      "source": "/:shortCode",
+      "destination": "/api/redirect/:shortCode"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/redirect/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "NEXT_PUBLIC_SITE_URL": "https://linkvault.dpdns.org",
+    "NEXT_PUBLIC_APP_NAME": "LinkVault"
+  },
+  "build": {
+    "env": {
+      "DATABASE_URL": "@database_url",
+      "JWT_SECRET": "@jwt_secret",
+      "ENCRYPTION_KEY": "@encryption_key",
+      "PROPELLER_ADS_SITE_ID": "@propeller_ads_site_id",
+      "GOOGLE_ADSENSE_CLIENT": "@google_adsense_client",
+      "COINZILLA_ZONE_ID": "@coinzilla_zone_id"
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/cleanup",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/analytics",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}

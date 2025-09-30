@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Domain Name Suggestions & Checker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+        .domain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .domain-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .tier1 { border-left-color: #28a745; }
+        .tier2 { border-left-color: #007bff; }
+        .tier3 { border-left-color: #ffc107; }
+        .domain-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .domain-category {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .price-estimate {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .features {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+        .features li {
+            padding: 3px 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+        .check-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .check-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+        .namecheap { background: #ff6600; }
+        .godaddy { background: #1bdbdb; }
+        .cloudflare { background: #f38020; }
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .tier-header {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 30px 0 20px 0;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .recommendations {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #28a745;
+            margin: 30px 0;
+        }
+        .generator {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .generator input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            width: 300px;
+            font-size: 1.1rem;
+            margin: 10px;
+        }
+        .generator button {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .generated-domains {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .generated-domain {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
+        }
+        .generated-domain:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 2rem; }
+            .domain-grid { grid-template-columns: 1fr; }
+            .generator input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Perfect Domains for Your URL Shortener</h1>
+        <p class="subtitle">High-earning, brandable domains optimized for monetization</p>
+
+        <div class="recommendations">
+            <h3>💡 My Top Recommendations:</h3>
+            <ol>
+                <li><strong>earnlinks.io</strong> - Perfect for earning focus + modern .io extension</li>
+                <li><strong>linkpay.io</strong> - Short, brandable, premium positioning</li>
+                <li><strong>cryptocut.co</strong> - Appeals to crypto audience (highest CPM)</li>
+                <li><strong>profitlink.net</strong> - Clear value proposition</li>
+                <li><strong>cashlinks.io</strong> - Money-focused, memorable</li>
+            </ol>
+        </div>
+
+        <div class="tier-header">💎 TIER 1: Premium Money-Making Domains</div>
+        <div class="domain-grid">
+            <div class="domain-card tier1">
+                <div class="domain-name">earnlinks.io</div>
+                <div class="domain-category">Earning Focus • Premium</div>
+                <div class="price-estimate">Est. $10-15/year</div>
+                <ul class="features">
+                    <li>Perfect for earning-focused platform</li>
+                    <li>Modern .io extension</li>
+                    <li>Great for SEO (earn + links)</li>
+                    <li>Appeals to crypto audience</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=earnlinks.io" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=earnlinks.io" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                    <a href="https://www.cloudflare.com/products/registrar/" target="_blank" class="check-btn cloudflare">Cloudflare</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier1">
+                <div class="domain-name">linkpay.io</div>
+                <div class="domain-category">Short & Professional • Premium</div>
+                <div class="price-estimate">Est. $10-15/year</div>
+                <ul class="features">
+                    <li>Ultra-short and memorable</li>
+                    <li>Clear payment association</li>
+                    <li>Professional branding</li>
+                    <li>Easy to type and remember</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=linkpay.io" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=linkpay.io" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier1">
+                <div class="domain-name">cryptocut.co</div>
+                <div class="domain-category">Crypto Focus • High CPM</div>
+                <div class="price-estimate">Est. $8-12/year</div>
+                <ul class="features">
+                    <li>Appeals to crypto audience</li>
+                    <li>Highest earning potential</li>
+                    <li>Short .co extension</li>
+                    <li>Brandable and modern</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=cryptocut.co" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=cryptocut.co" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier1">
+                <div class="domain-name">profitlink.net</div>
+                <div class="domain-category">Clear Value • Trustworthy</div>
+                <div class="price-estimate">Est. $8-12/year</div>
+                <ul class="features">
+                    <li>Clear profit messaging</li>
+                    <li>Trusted .net extension</li>
+                    <li>Great for business users</li>
+                    <li>SEO-friendly keywords</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=profitlink.net" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=profitlink.net" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier1">
+                <div class="domain-name">cashlinks.io</div>
+                <div class="domain-category">Money-focused • Modern</div>
+                <div class="price-estimate">Est. $10-15/year</div>
+                <ul class="features">
+                    <li>Direct money association</li>
+                    <li>Easy to remember</li>
+                    <li>Appeals to earners</li>
+                    <li>Modern .io branding</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=cashlinks.io" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=cashlinks.io" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier1">
+                <div class="domain-name">paycut.co</div>
+                <div class="domain-category">Ultra-short • Premium</div>
+                <div class="price-estimate">Est. $8-12/year</div>
+                <ul class="features">
+                    <li>Extremely short (6 letters)</li>
+                    <li>Payment focused</li>
+                    <li>Easy to brand</li>
+                    <li>Premium positioning</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=paycut.co" target="_blank" class="check-btn namecheap">Namecheap</a>
+                    <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=paycut.co" target="_blank" class="check-btn godaddy">GoDaddy</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tier-header">🎯 TIER 2: Brandable & Creative</div>
+        <div class="domain-grid">
+            <div class="domain-card tier2">
+                <div class="domain-name">ziplink.pro</div>
+                <div class="domain-category">Fast & Professional</div>
+                <div class="price-estimate">Est. $15-25/year</div>
+                <ul class="features">
+                    <li>Speed association</li>
+                    <li>Professional .pro extension</li>
+                    <li>Easy to remember</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=ziplink.pro" target="_blank" class="check-btn namecheap">Check</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier2">
+                <div class="domain-name">linkgem.io</div>
+                <div class="domain-category">Creative & Valuable</div>
+                <div class="price-estimate">Est. $10-15/year</div>
+                <ul class="features">
+                    <li>Implies value (gem)</li>
+                    <li>Unique and brandable</li>
+                    <li>Memorable</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=linkgem.io" target="_blank" class="check-btn namecheap">Check</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier2">
+                <div class="domain-name">boosturl.co</div>
+                <div class="domain-category">Growth-focused</div>
+                <div class="price-estimate">Est. $8-12/year</div>
+                <ul class="features">
+                    <li>Growth implication</li>
+                    <li>Action-oriented</li>
+                    <li>SEO-friendly</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=boosturl.co" target="_blank" class="check-btn namecheap">Check</a>
+                </div>
+            </div>
+
+            <div class="domain-card tier2">
+                <div class="domain-name">linkfire.co</div>
+                <div class="domain-category">Dynamic & Energetic</div>
+                <div class="price-estimate">Est. $8-12/year</div>
+                <ul class="features">
+                    <li>High energy branding</li>
+                    <li>Memorable</li>
+                    <li>Appeals to young audience</li>
+                </ul>
+                <div class="check-buttons">
+                    <a href="https://www.namecheap.com/domains/registration/results/?domain=linkfire.co" target="_blank" class="check-btn namecheap">Check</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="generator">
+            <h3>🎲 Domain Name Generator</h3>
+            <p>Generate custom domain ideas for your URL shortener:</p>
+            <input type="text" id="keyword" placeholder="Enter a keyword (e.g., fast, money, cut)">
+            <button onclick="generateDomains()">Generate Ideas</button>
+            <div id="generatedDomains" class="generated-domains"></div>
+        </div>
+
+        <div style="background: linear-gradient(45deg, #28a745, #20c997); color: white; padding: 25px; border-radius: 15px; text-align: center; margin: 30px 0;">
+            <h3>🏆 Final Recommendation</h3>
+            <p style="font-size: 1.2em; margin: 15px 0;">
+                Go with <strong>earnlinks.io</strong> or <strong>linkpay.io</strong> for maximum earning potential!
+            </p>
+            <p>Both are perfect for a money-focused URL shortener with crypto payment options.</p>
+        </div>
+    </div>
+
+    <script>
+        function generateDomains() {
+            const keyword = document.getElementById('keyword').value.toLowerCase().trim();
+            if (!keyword) {
+                alert('Please enter a keyword!');
+                return;
+            }
+
+            const prefixes = ['quick', 'fast', 'smart', 'mega', 'super', 'ultra', 'pro', 'best', 'top', 'prime'];
+            const suffixes = ['link', 'cut', 'url', 'short', 'clip', 'snap', 'zip', 'go', 'hub', 'net'];
+            const extensions = ['.io', '.co', '.net', '.pro', '.com'];
+
+            const generatedContainer = document.getElementById('generatedDomains');
+            generatedContainer.innerHTML = '';
+
+            // Generate combinations
+            const domains = [];
+            
+            // Keyword + suffix
+            suffixes.forEach(suffix => {
+                extensions.forEach(ext => {
+                    domains.push(keyword + suffix + ext);
+                });
+            });
+
+            // Prefix + keyword
+            prefixes.forEach(prefix => {
+                extensions.forEach(ext => {
+                    domains.push(prefix + keyword + ext);
+                });
+            });
+
+            // Display first 20 suggestions
+            domains.slice(0, 20).forEach(domain => {
+                const domainDiv = document.createElement('div');
+                domainDiv.className = 'generated-domain';
+                domainDiv.innerHTML = `
+                    <strong>${domain}</strong>
+                    <br>
+                    <small><a href="https://www.namecheap.com/domains/registration/results/?domain=${domain}" target="_blank" style="color: #007bff;">Check Availability</a></small>
+                `;
+                generatedContainer.appendChild(domainDiv);
+            });
+        }
+
+        // Add click-to-copy functionality
+        document.querySelectorAll('.domain-name').forEach(domain => {
+            domain.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent).then(() => {
+                    const originalText = this.textContent;
+                    this.textContent = '✓ Copied!';
+                    this.style.color = '#28a745';
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.style.color = '#2c3e50';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

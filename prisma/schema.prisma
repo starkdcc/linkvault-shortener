@@ -1,0 +1,284 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  username        String?   @unique
+  name            String?
+  avatar          String?
+  emailVerified   DateTime? @map("email_verified")
+  password        String?
+  role            Role      @default(USER)
+  planId          String?   @map("plan_id")
+  plan            Plan?     @relation(fields: [planId], references: [id])
+  totalEarnings   Float     @default(0.00) @map("total_earnings")
+  availableBalance Float    @default(0.00) @map("available_balance")
+  referralCode    String    @unique @map("referral_code")
+  referredBy      String?   @map("referred_by")
+  referrer        User?     @relation("UserReferrals", fields: [referredBy], references: [id])
+  referrals       User[]    @relation("UserReferrals")
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  urls            Url[]
+  earnings        Earning[]
+  withdrawals     Withdrawal[]
+  sessions        Session[]
+  accounts        Account[]
+  clicks          Click[]
+  stats           UserStats?
+  
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Plan {
+  id                String  @id @default(cuid())
+  name              String
+  displayName       String  @map("display_name")
+  price             Float
+  cpmRate           Float   @map("cpm_rate")
+  referralBonus     Float   @map("referral_bonus")
+  withdrawalLimit   Float   @map("withdrawal_limit")
+  features          Json
+  isActive          Boolean @default(true) @map("is_active")
+  sortOrder         Int     @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  users User[]
+
+  @@map("plans")
+}
+
+model Url {
+  id            String    @id @default(cuid())
+  originalUrl   String    @map("original_url")
+  shortCode     String    @unique @map("short_code")
+  customAlias   String?   @unique @map("custom_alias")
+  title         String?
+  description   String?
+  domain        String    @default("linkvault.dpdns.org")
+  userId        String?   @map("user_id")
+  user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  password      String?
+  expiresAt     DateTime? @map("expires_at")
+  isActive      Boolean   @default(true) @map("is_active")
+  clickLimit    Int?      @map("click_limit")
+  totalClicks   Int       @default(0) @map("total_clicks")
+  uniqueClicks  Int       @default(0) @map("unique_clicks")
+  totalEarnings Float     @default(0.00) @map("total_earnings")
+  lastClickedAt DateTime? @map("last_clicked_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  clicks      Click[]
+  analytics   Analytics[]
+
+  @@map("urls")
+}
+
+model Click {
+  id          String   @id @default(cuid())
+  urlId       String   @map("url_id")
+  url         Url      @relation(fields: [urlId], references: [id], onDelete: Cascade)
+  userId      String?  @map("user_id")
+  user        User?    @relation(fields: [userId], references: [id])
+  ipAddress   String   @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  country     String?
+  region      String?
+  city        String?
+  device      String?
+  browser     String?
+  os          String?
+  referrer    String?
+  language    String?
+  isUnique    Boolean  @default(true) @map("is_unique")
+  earnings    Float    @default(0.00)
+  adNetwork   String?  @map("ad_network")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("clicks")
+}
+
+model Earning {
+  id          String      @id @default(cuid())
+  userId      String      @map("user_id")
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  urlId       String?     @map("url_id")
+  amount      Float
+  type        EarningType
+  source      String?     // Ad network or referral
+  country     String?
+  description String?
+  metadata    Json?
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  @@map("earnings")
+}
+
+model Withdrawal {
+  id          String           @id @default(cuid())
+  userId      String           @map("user_id")
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float
+  method      WithdrawalMethod
+  details     Json             // Payment details (PayPal email, crypto address, etc.)
+  status      WithdrawalStatus @default(PENDING)
+  processedAt DateTime?        @map("processed_at")
+  notes       String?
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  @@map("withdrawals")
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  urlId     String   @map("url_id")
+  url       Url      @relation(fields: [urlId], references: [id], onDelete: Cascade)
+  date      DateTime
+  clicks    Int      @default(0)
+  earnings  Float    @default(0.00)
+  country   String?
+  device    String?
+  browser   String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([urlId, date, country, device, browser])
+  @@map("analytics")
+}
+
+model UserStats {
+  id                String   @id @default(cuid())
+  userId            String   @unique @map("user_id")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalUrls         Int      @default(0) @map("total_urls")
+  totalClicks       Int      @default(0) @map("total_clicks")
+  totalEarnings     Float    @default(0.00) @map("total_earnings")
+  todayClicks       Int      @default(0) @map("today_clicks")
+  todayEarnings     Float    @default(0.00) @map("today_earnings")
+  thisMonthClicks   Int      @default(0) @map("this_month_clicks")
+  thisMonthEarnings Float    @default(0.00) @map("this_month_earnings")
+  totalReferrals    Int      @default(0) @map("total_referrals")
+  referralEarnings  Float    @default(0.00) @map("referral_earnings")
+  lastActivity      DateTime? @map("last_activity")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("user_stats")
+}
+
+model BlacklistedIp {
+  id        String   @id @default(cuid())
+  ipAddress String   @unique @map("ip_address")
+  reason    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("blacklisted_ips")
+}
+
+model AdNetwork {
+  id          String  @id @default(cuid())
+  name        String
+  code        String  @unique
+  scriptUrl   String? @map("script_url")
+  zoneId      String? @map("zone_id")
+  siteId      String? @map("site_id")
+  isActive    Boolean @default(true) @map("is_active")
+  cpmRate     Float   @default(0.00) @map("cpm_rate")
+  countries   Json?   // Supported countries
+  deviceTypes Json?   @map("device_types") // mobile, desktop, tablet
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("ad_networks")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+// Enums
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum EarningType {
+  CLICK
+  REFERRAL
+  BONUS
+  ADMIN_BONUS
+}
+
+enum WithdrawalMethod {
+  PAYPAL
+  BITCOIN
+  ETHEREUM
+  USDT
+  BANK_TRANSFER
+  OTHER
+}
+
+enum WithdrawalStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
