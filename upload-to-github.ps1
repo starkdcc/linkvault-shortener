@@ -61,13 +61,13 @@ try {
         Write-Host "1. 🌐 Visit: https://github.com/starkdcc/linkvault-shortener" -ForegroundColor White
         Write-Host "2. 🚀 Click 'Deploy with Vercel' button in README" -ForegroundColor White
         Write-Host "3. 🔗 Connect domain: linkvault.dpdns.org" -ForegroundColor White
-        Write-Host "4. ⚙️  Set environment variables (database, ad networks)" -ForegroundColor White
+        Write-Host "4. Set environment variables (database, ad networks)" -ForegroundColor White
         Write-Host "5. 💰 Start earning with high CPM ads!" -ForegroundColor White
         Write-Host ""
         Write-Host "💡 Your URL shortener features:" -ForegroundColor Yellow
         Write-Host "   • High CPM ads: PropellerAds, AdSense, Coinzilla" -ForegroundColor White
         Write-Host "   • Crypto payments: Bitcoin, Ethereum, USDT" -ForegroundColor White
-        Write-Host "   • Real-time analytics & earnings tracking" -ForegroundColor White
+        Write-Host "   - Real-time analytics and earnings tracking" -ForegroundColor White
         Write-Host "   • Premium subscription tiers" -ForegroundColor White
         Write-Host "   • 10% referral commission system" -ForegroundColor White
         Write-Host "   • Edge runtime for lightning-fast redirects" -ForegroundColor White
@@ -76,7 +76,7 @@ try {
     } else {
         Write-Host "❌ Failed to push to GitHub. Error code: $LASTEXITCODE" -ForegroundColor Red
         Write-Host "   Common issues:" -ForegroundColor Yellow
-        Write-Host "   • Repository doesn't exist on GitHub" -ForegroundColor White
+        Write-Host "   - Repository does not exist on GitHub" -ForegroundColor White
         Write-Host "   • Authentication required (GitHub login)" -ForegroundColor White
         Write-Host "   • Network connection issues" -ForegroundColor White
     }
