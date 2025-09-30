@@ -20,12 +20,25 @@
           "value": "*"
         },
         {
-          "key": "Access-Control-Allow-Methods", 
+          "key": "Access-Control-Allow-Methods",
           "value": "GET, POST, PUT, DELETE, OPTIONS"
         },
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/redirect/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=86400, stale-while-revalidate=604800"
         }
       ]
     }
@@ -34,5 +47,5 @@
     "NODE_ENV": "production",
     "NEXT_PUBLIC_SITE_URL": "https://linkpay.com",
     "NEXT_PUBLIC_APP_NAME": "LinkPay"
-  }
+  },
 }
